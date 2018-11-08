@@ -21,10 +21,7 @@
 	<insert id="addProduct" parameterType="com.model2.mvc.service.domain.Product">
 		INSERT
 		INTO product VALUES (
-		<if test="prodNo!=0">#{prodNo:NUMERIC}</if>
-		<if test="prodNo==0">
-			seq_product_no.NEXTVAL
-		</if>
+			seq_product_prod_no.NEXTVAL
 		,
 		#{prodName:VARCHAR},
 		#{prodDetail:VARCHAR},

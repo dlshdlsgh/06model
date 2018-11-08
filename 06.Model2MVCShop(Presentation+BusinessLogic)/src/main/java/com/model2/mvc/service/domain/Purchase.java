@@ -54,7 +54,7 @@ public class Purchase {
 		return paymentOption;
 	}
 	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption;
+		this.paymentOption = paymentOption.substring(0, 1);
 	}
 	public Product getPurchaseProd() {
 		return purchaseProd;
@@ -78,7 +78,7 @@ public class Purchase {
 		return tranCode;
 	}
 	public void setTranCode(String tranCode) {
-		this.tranCode = tranCode;
+		this.tranCode = tranCode.substring(0, 1);
 	}
 	public int getTranNo() {
 		return tranNo;

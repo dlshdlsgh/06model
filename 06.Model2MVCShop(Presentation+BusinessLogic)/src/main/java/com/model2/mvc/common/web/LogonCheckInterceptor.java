@@ -1,11 +1,16 @@
 package com.model2.mvc.common.web;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.model2.mvc.common.Page;
+import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
 
 
@@ -61,12 +66,17 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			String uri = request.getRequestURI();
 			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
 					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
+					uri.indexOf("checkDuplication") != -1 || uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1 ){
 				System.out.println("[ 로그 시도 상태 .... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return true;
 			}
-			
+			/*
+			if (request.getParameter("menu").equals("search")) {
+				request.getRequestDispatcher("/listProduct.do").forward(request, response);
+			}else {
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+			}*/
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			System.out.println("[ 로그인 이전 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
