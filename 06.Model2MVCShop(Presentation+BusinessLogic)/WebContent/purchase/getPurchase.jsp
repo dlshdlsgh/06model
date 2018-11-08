@@ -67,7 +67,7 @@
 		<td width="104" class="ct_write">구매방법</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${!empty purchase.paymentOption && purchase.paymentOption == 0 ? "현금결제" : "신용결제" }
+			${!empty purchase.paymentOption && purchase.paymentOption == 1 ? "현금결제" : "신용결제" }
 		</td>
 	</tr>
 	<tr>

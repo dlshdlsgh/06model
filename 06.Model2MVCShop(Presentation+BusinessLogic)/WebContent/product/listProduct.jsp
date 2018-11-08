@@ -135,7 +135,7 @@ function fncGetUserList(currentPage){
 	 <c:forEach var="product" items="${list}">
 	 <c:set var="i" value="${i+1}" />
 	<tr class="ct_list_pop">
-		<td align="center">${i+1}</td>
+		<td align="center">${i}</td>
 		<td></td>
 		<td align="left">
 		<c:if test="${!empty param.menu && param.menu =='search'}">

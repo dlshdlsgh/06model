@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,11 +20,8 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 @Controller
 public class PurchaseController {
@@ -116,7 +112,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/listPurchase.do")
-	public ModelAndView listPurchase(@ModelAttribute("search") Search search, Model model, HttpServletRequest request,HttpSession session) throws Exception {
+	public ModelAndView listPurchase(@ModelAttribute("search") Search search, HttpServletRequest request,HttpSession session) throws Exception {
 		System.out.println("리스트판매엑션 시작");
 		User user = (User)session.getAttribute("user");
 		
@@ -155,8 +151,8 @@ public class PurchaseController {
 		purchase.setPaymentOption(request.getParameter("paymentOption"));
 		purchase.setReceiverName(request.getParameter("receiverName"));
 		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
-		purchase.setDivyRequest(request.getParameter("divyRequest"));
-		purchase.setDivyAddr(request.getParameter("divyAddr"));
+		purchase.setDivyRequest(request.getParameter("receiverRequest"));
+		purchase.setDivyAddr(request.getParameter("receiverAddr"));
 		purchase.setDivyDate(request.getParameter("divyDate"));
 		
 		purService.updatePurcahse(purchase);
@@ -178,6 +174,49 @@ public class PurchaseController {
 		System.out.println("업데이트펄뷰에서 purchase::"+purchase);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/purchase/updatePurchase.jsp");
+		modelAndView.addObject("purchase", purchase);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateTranCode.do")
+	public ModelAndView updateTranCode(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		Purchase purchase = (Purchase)request.getAttribute("purchase");
+		System.out.println("업데이트트렌코드 vo::::::"+purchase);
+		
+		purService.updateTranCode(purchase);
+		
+		User user=userService.getUser(purchase.getBuyer().getUserId());
+		System.out.println("유펄 끝");
+		
+		String viewName="redirect:/listProduct.do?menu=manage";
+		
+		if (user.getRole().equals("admin")&&purchase.getTranCode().equals("2")) {
+			viewName= "redirect:/listProduct.do?menu=manage";
+		}else if(user.getRole().equals("user")&&purchase.getTranCode().equals("3")){
+			viewName= "redirect:/listPurchase.do";
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName(viewName);
+		
+		System.out.println("트렌코드업데이트끝~~");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateTranCodeByProd.do")
+	public ModelAndView updateTranCodeByProd(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		int prodNo=Integer.parseInt(request.getParameter("prodNo"));
+		
+		Purchase purchase = purService.getPurchase2(prodNo);
+		purchase.setPurchaseProd(proService.getProduct(prodNo));
+		purchase.setTranCode(request.getParameter("tranCode"));
+		
+		System.out.println("업트렌코드 purchase::"+purchase);
+		
+		System.out.println("업트렌바이프로덕끝");
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/updateTranCode.do");
 		modelAndView.addObject("purchase", purchase);
 		
 		return modelAndView;

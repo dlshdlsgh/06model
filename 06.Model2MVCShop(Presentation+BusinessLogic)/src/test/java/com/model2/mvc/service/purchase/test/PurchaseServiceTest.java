@@ -95,22 +95,22 @@ public class PurchaseServiceTest {
 		
 		Assert.assertEquals(123, purchase.getPurchaseProd().getProdNo());
 		Assert.assertEquals("user15", purchase.getBuyer().getUserId());
-		Assert.assertEquals("1  ", purchase.getPaymentOption());
-		Assert.assertEquals("이인호", purchase.getReceiverName());
-		Assert.assertEquals("12345678", purchase.getReceiverPhone());
-		Assert.assertEquals("서울시", purchase.getDivyAddr());
-		Assert.assertEquals("빨리요ㅜㅜ", purchase.getDivyRequest());
+		Assert.assertEquals("1", purchase.getPaymentOption());
+		Assert.assertEquals("인홍", purchase.getReceiverName());
+		Assert.assertEquals("32121234", purchase.getReceiverPhone());
+		Assert.assertEquals("속초시", purchase.getDivyAddr());
+		Assert.assertEquals("배달좀", purchase.getDivyRequest());
 		
 		//==> console 확인
 		System.out.println("purchase::"+purchase);
 		//System.out.println(user);
 		
 		purchase.setPaymentOption("2");
-		purchase.setReceiverName("뤼인홍");
-		purchase.setReceiverPhone("12121234");
-		purchase.setDivyAddr("성남시");
-		purchase.setDivyRequest("빨리배");
-		purchase.setDivyDate("20181024");
+		purchase.setReceiverName("이인홍");
+		purchase.setReceiverPhone("41121234");
+		purchase.setDivyAddr("속초");
+		purchase.setDivyRequest("배달");
+		purchase.setDivyDate("20181011");
 		
 		purService.updatePurcahse(purchase);
 		
@@ -120,11 +120,11 @@ public class PurchaseServiceTest {
 		//==> API 확인
 		Assert.assertEquals(123, purchase.getPurchaseProd().getProdNo());
 		Assert.assertEquals("user15", purchase.getBuyer().getUserId());
-		Assert.assertEquals("2  ", purchase.getPaymentOption());
-		Assert.assertEquals("뤼인홍", purchase.getReceiverName());
-		Assert.assertEquals("12121234", purchase.getReceiverPhone());
-		Assert.assertEquals("성남시", purchase.getDivyAddr());
-		Assert.assertEquals("빨리배", purchase.getDivyRequest());
+		Assert.assertEquals("2", purchase.getPaymentOption());
+		Assert.assertEquals("이인홍", purchase.getReceiverName());
+		Assert.assertEquals("41121234", purchase.getReceiverPhone());
+		Assert.assertEquals("속초", purchase.getDivyAddr());
+		Assert.assertEquals("배달", purchase.getDivyRequest());
 	 }
 	 
 	 //@Test

@@ -14,11 +14,19 @@
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
+<script type="text/javascript">
+
+function fncUpdatePurchase() {
+	document.updatePurchase.submit();
+}
+
+</script>
+
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchase.tranNo }">
+<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchase.tranNo}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -115,7 +123,7 @@
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
+			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g"
 						style="width: 100px; height: 19px" maxLength="20"/>
 				<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
 							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/>
@@ -136,7 +144,7 @@
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-					<input type="submit" value="수정"/>
+					<a href="javascript:fncUpdatePurchase()">수정</a>
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

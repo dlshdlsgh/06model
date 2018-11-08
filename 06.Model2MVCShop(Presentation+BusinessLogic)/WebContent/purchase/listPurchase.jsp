@@ -80,7 +80,7 @@
 		<td></td>
 		<td align="left">
 			<c:if test="${!empty purchase.tranCode && purchase.tranCode == 2}">
-			<a href="/updateTranCodeByProd.do?prodNo=${purchase.purchaseProd.prodNo }&tranCode=3">물품도착알림</a>
+			<a href="/updateTranCodeByProd.do?prodNo=${purchase.purchaseProd.prodNo}&tranCode=3">물품도착알림</a>
 			</c:if>
 		</td>
 	</tr>
