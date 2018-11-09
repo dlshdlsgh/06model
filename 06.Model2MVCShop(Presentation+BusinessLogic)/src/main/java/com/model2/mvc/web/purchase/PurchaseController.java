@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -51,12 +52,12 @@ public class PurchaseController {
 	}
 
 	@RequestMapping("/addPurchase.do")
-	public ModelAndView addPurchase(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView addPurchase(@RequestParam("buyerId") String buyerId,@RequestParam("prodNo") int prodNo,HttpServletRequest request) throws Exception {
 		System.out.println("addPurchaseAction 시작 ::");
 
 		Purchase purchase=new Purchase();
-		purchase.setBuyer(userService.getUser(request.getParameter("buyerId")));
-		purchase.setPurchaseProd(proService.getProduct(Integer.parseInt(request.getParameter("prodNo"))));
+		purchase.setBuyer(userService.getUser(buyerId));
+		purchase.setPurchaseProd(proService.getProduct(prodNo));
 		purchase.setPaymentOption(request.getParameter("paymentOption"));
 		purchase.setReceiverName(request.getParameter("receiverName"));
 		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
@@ -78,9 +79,8 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/addPurchaseView.do")
-	public ModelAndView addPurchaseView(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView addPurchaseView(@RequestParam("prodNo") int prodNo) throws Exception {
 		System.out.println("addPurchaseView 시작:::::::::::");
-		int prodNo = Integer.parseInt(request.getParameter("prod_no"));
 		System.out.println("prodNo:::"+prodNo);
 		
 		Product product=proService.getProduct(prodNo);
@@ -96,9 +96,8 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/getPurchase.do")
-	public ModelAndView getPurchase(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView getPurchase(@RequestParam("tranNo") int tranNo) throws Exception {
 		System.out.println("getPurchaseAction 시작");
-		int tranNo=Integer.parseInt(request.getParameter("tranNo"));
 		
 		Purchase purchase=purService.getPurchase(tranNo);
 		
@@ -112,7 +111,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/listPurchase.do")
-	public ModelAndView listPurchase(@ModelAttribute("search") Search search, HttpServletRequest request,HttpSession session) throws Exception {
+	public ModelAndView listPurchase(@ModelAttribute("search") Search search,HttpSession session) throws Exception {
 		System.out.println("리스트판매엑션 시작");
 		User user = (User)session.getAttribute("user");
 		
@@ -143,8 +142,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/updatePurchase.do")
-	public ModelAndView updatePurchase(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		int tranNo=Integer.parseInt(request.getParameter("tranNo"));
+	public ModelAndView updatePurchase(@RequestParam("tranNo") int tranNo,HttpServletRequest request) throws Exception {
 		
 		Purchase purchase = new Purchase();
 		purchase.setTranNo(tranNo);
@@ -166,9 +164,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/updatePurchaseView.do")
-	public ModelAndView updatePurchaseView(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		
-		int tranNo=Integer.parseInt(request.getParameter("tranNo"));
+	public ModelAndView updatePurchaseView(@RequestParam("tranNo") int tranNo) throws Exception {
 		
 		Purchase purchase=purService.getPurchase(tranNo);
 		System.out.println("업데이트펄뷰에서 purchase::"+purchase);
@@ -180,10 +176,11 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/updateTranCode.do")
-	public ModelAndView updateTranCode(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		Purchase purchase = (Purchase)request.getAttribute("purchase");
-		System.out.println("업데이트트렌코드 vo::::::"+purchase);
+	public ModelAndView updateTranCode(HttpServletRequest request) throws Exception {
 		
+		Purchase purchase=(Purchase)request.getAttribute("purchase");
+		
+		System.out.println("업데이트트렌코드 vo::::::"+purchase);
 		purService.updateTranCode(purchase);
 		
 		User user=userService.getUser(purchase.getBuyer().getUserId());
@@ -204,12 +201,11 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/updateTranCodeByProd.do")
-	public ModelAndView updateTranCodeByProd(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		int prodNo=Integer.parseInt(request.getParameter("prodNo"));
+	public ModelAndView updateTranCodeByProd(@RequestParam("prodNo") int prodNo,@RequestParam("tranCode") String tranCode) throws Exception {
 		
 		Purchase purchase = purService.getPurchase2(prodNo);
 		purchase.setPurchaseProd(proService.getProduct(prodNo));
-		purchase.setTranCode(request.getParameter("tranCode"));
+		purchase.setTranCode(tranCode);
 		
 		System.out.println("업트렌코드 purchase::"+purchase);
 		
